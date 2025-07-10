@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { ArrowUpDown, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -102,9 +102,16 @@ export const CandidateGrid = ({
   };
 
   // Reset to page 1 when filters change (candidates array changes)
-  useMemo(() => {
+  useEffect(() => {
     setCurrentPage(1);
   }, [candidates.length]);
+
+  // Clamp currentPage if it exceeds totalPages after filtering
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages || 1);
+    }
+  }, [totalPages, currentPage]);
 
   return (
     <div className="space-y-6">
@@ -175,8 +182,11 @@ export const CandidateGrid = ({
                   key={page}
                   variant={currentPage === page ? "default" : "outline"}
                   size="sm"
-                  onClick={() => goToPage(page)}
+                  onClick={() => {
+                    if (currentPage !== page) goToPage(page);
+                  }}
                   className="w-10"
+                  disabled={currentPage === page}
                 >
                   {page}
                 </Button>
