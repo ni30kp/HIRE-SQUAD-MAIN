@@ -76,8 +76,8 @@ export const EnhancedCandidateCard = ({
       isSelected ? 'ring-2 ring-primary shadow-lg bg-gradient-to-br from-primary/5 to-accent/5' : ''
     }`}>
       <CardHeader className="pb-3">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
+        <div className="flex flex-wrap items-start justify-between">
+          <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
               <h3 className="font-semibold text-lg text-foreground">{safeName}</h3>
               
@@ -116,7 +116,7 @@ export const EnhancedCandidateCard = ({
             size="sm"
             onClick={() => onToggleSelection(candidate.id!)}
             disabled={!isSelected && selectionLimit}
-            className="ml-2"
+            className="ml-2 shrink-0"
           >
             {isSelected ? (
               <>
