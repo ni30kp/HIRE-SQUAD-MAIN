@@ -74,30 +74,33 @@ export const CandidateGrid = ({
   const getPageNumbers = () => {
     const pages = [];
     const maxVisiblePages = 5;
-    
-    if (totalPages <= maxVisiblePages) {
+
+    if (totalPages <= maxVisiblePages + 2) {
+      // Show all pages if not too many
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
-      const start = Math.max(1, currentPage - 2);
-      const end = Math.min(totalPages, currentPage + 2);
-      
-      if (start > 1) {
-        pages.push(1);
-        if (start > 2) pages.push('...');
+      const left = Math.max(2, currentPage - 1);
+      const right = Math.min(totalPages - 1, currentPage + 1);
+
+      pages.push(1);
+
+      if (left > 2) {
+        pages.push('...');
       }
-      
-      for (let i = start; i <= end; i++) {
+
+      for (let i = left; i <= right; i++) {
         pages.push(i);
       }
-      
-      if (end < totalPages) {
-        if (end < totalPages - 1) pages.push('...');
-        pages.push(totalPages);
+
+      if (right < totalPages - 1) {
+        pages.push('...');
       }
+
+      pages.push(totalPages);
     }
-    
+
     return pages;
   };
 
